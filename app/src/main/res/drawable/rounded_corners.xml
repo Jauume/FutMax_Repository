@@ -1,0 +1,10 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Ajusta el radio de las esquinas a tu preferencia -->
+    <corners android:radius="16dp"/>
+
+    <!-- Color transparente o el que prefieras de fondo -->
+    <solid android:color="@android:color/transparent" />
+
+</shape>

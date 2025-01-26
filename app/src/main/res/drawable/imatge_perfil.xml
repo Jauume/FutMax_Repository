@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo gris claro -->
+    <solid android:color="#D3D3D3" />
+
+    <!-- Bordes redondeados -->
+    <corners android:radius="8dp" />
+
+    <!-- Tamaño de la imagen -->
+    <size
+        android:width="80dp"
+        android:height="80dp" />
+
+    <!-- Borde gris más oscuro -->
+    <stroke
+        android:width="2dp"
+        android:color="#A9A9A9" />
+</shape>

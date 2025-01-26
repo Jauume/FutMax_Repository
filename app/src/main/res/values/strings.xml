@@ -1,0 +1,49 @@
+<resources>
+    <string name="tv_selected_role">Welcome. We are thrilled to have a new %1$s in our application. To complete the registration, we will ask you to add some additional information.</string>
+    <string name="default_role_text">Select your role</string>
+    <string name="app_name" translatable="false">FutMax</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Search</string>
+    <string name="title_profile">Profile</string>
+    <string name="button_text">You are in english</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="login_edittext_username">User Name</string>
+    <string name="login_edittext_password">Password</string>
+    <string name="login_button_register">Register</string>
+    <string name="login_button_login">Sign In</string>
+    <string name="register1_rol1">Player</string>
+    <string name="register1_rol2">Trainer</string>
+    <string name="register1_rol3">Preparator</string>
+    <string name="register1_rol4">Agent</string>
+    <string name="register1_rol5">Analyst</string>
+    <string name="register1_rol6">Fan</string>
+    <string name="register1_rol7">Club</string>
+    <string name="register1_rol8">Physiotherapist</string>
+    <string name="register1_rol9">Psychologist</string>
+    <string name="register1_text">What position do you play?</string>
+    <string name="register1_nextbutton">Next</string>
+    <string name="register2_big_personalinfo">Personal Information</string>
+    <string name="register2_t_fullname">Full Name</string>
+    <string name="register2_et_nombre_completo">Enter your full name</string>
+    <string name="register2_t_birth_date">Date of Birth</string>
+    <string name="register2_t_nationality">Nationality</string>
+    <string name="register2_et_nacionalidad">Enter your nationality</string>
+    <string name="register2_t_birth_place">Place of Birth</string>
+    <string name="register2_et_lugar_nacimiento">Enter your place of birth</string>
+    <string name="register2_t_gender">Gender</string>
+    <string name="register2_rb_chico">Boy</string>
+    <string name="register2_rb_chica">Girl</string>
+    <string name="register2_rb_otro">Other</string>
+    <string name="register2_big_informacion_contacto">Contact Information</string>
+    <string name="register2_t_email">Email</string>
+    <string name="register2_et_correo_electronico">Enter your email</string>
+    <string name="register2_t_phone_number">Phone Number</string>
+    <string name="register2_et_numero_telefono">Enter your phone number</string>
+    <string name="register2_t_residence_country">Country of Residence</string>
+    <string name="register2_t_residence_state">State/Region</string>
+    <string name="register2_t_residence_city">City</string>
+    <string name="register2_t_residence_address">Residential Address</string>
+    <string name="register2_et_direccion_residencia">Enter your addres</string>
+    <string name="register_backbutton">Back</string>
+
+</resources>

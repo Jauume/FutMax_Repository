@@ -1,0 +1,5 @@
+flask
+gunicorn
+psycopg2
+flask-cors
+pytz==2024.1

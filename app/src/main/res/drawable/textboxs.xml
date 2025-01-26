@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Estado cuando el EditText está enfocado -->
+    <item android:state_focused="true">
+        <shape>
+            <!-- "?attr/colorOnPrimary" -->
+            <solid android:color="@color/grisedittext"/> <!-- Color de fondo cuando está enfocado -->
+            <corners android:radius="16dp"/>
+            <stroke android:width="2dp" android:color="?attr/colorOnSurface"/> <!-- Color del borde cuando está enfocado -->
+            <padding
+                android:left="16dp"
+                android:top="8dp"
+                android:right="20dp"
+                android:bottom="8dp"/>
+        </shape>
+    </item>
+
+
+    <!-- Estado por defecto, cuando no está enfocado -->
+    <item>
+        <shape>
+            <solid android:color="@color/grisedittext"/>  <!-- Color de fondo por defecto -->
+            <corners android:radius="16dp"/>
+            <stroke android:width="2dp" android:color="?attr/trackColorInactive"/> <!-- Color del borde por defecto -->
+            <padding
+                android:left="16dp"
+                android:top="8dp"
+                android:right="16dp"
+                android:bottom="8dp"/> <!-- Incrementa para aumentar altura -->
+        </shape>
+    </item>
+</selector>

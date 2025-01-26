@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.register.RegisterActivity2">
+
+    <!-- Texto superior con el rol seleccionado -->
+    <TextView
+        android:id="@+id/tv_selected_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/default_role_text"
+        android:textColor="#4CAF50"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- ScrollView para hacer la pantalla deslizable -->
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_selected_role"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Información Personal -->
+            <TextView
+                android:id="@+id/tv_informacion_personal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_big_personalinfo"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <!-- Nombre Completo -->
+            <TextView
+                android:id="@+id/full_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_fullname"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_nombre_completo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register2_et_nombre_completo"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/textboxs" />
+
+            <!-- Fecha de Nacimiento -->
+            <TextView
+                android:id="@+id/birth_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_birth_date"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_fecha_nacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="DD/MM/AAAA"
+                android:inputType="date"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/textboxs" />
+
+            <!-- Nacionalidad -->
+            <TextView
+                android:id="@+id/nationality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_nationality"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_nacionalidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register2_et_nacionalidad"
+                android:inputType="text"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/textboxs" />
+
+            <!-- Lugar de Nacimiento -->
+            <TextView
+                android:id="@+id/birth_place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_birth_place"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_lugar_nacimiento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register2_et_lugar_nacimiento"
+                android:inputType="text"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/textboxs" />
+
+            <!-- Género -->
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_gender"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <RadioGroup
+                android:id="@+id/rg_genero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <RadioButton
+                    android:id="@+id/rb_chico"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register2_rb_chico"
+                    android:textColor="@color/verde_cesped"
+                    android:buttonTint="@color/verde_cesped" />
+
+                <RadioButton
+                    android:id="@+id/rb_chica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register2_rb_chica"
+                    android:textColor="@color/verde_cesped"
+                    android:buttonTint="@color/verde_cesped" />
+
+                <RadioButton
+                    android:id="@+id/rb_otro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register2_rb_otro"
+                    android:textColor="@color/verde_cesped"
+                    android:buttonTint="@color/verde_cesped" />
+            </RadioGroup>
+
+            <!-- Información de Contacto -->
+            <TextView
+                android:id="@+id/tv_informacion_contacto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_big_informacion_contacto"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/verde_cesped"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <!-- Correo Electrónico -->
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_email"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <EditText
+                android:id="@+id/et_correo_electronico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:accessibilityHeading="false"
+                android:background="@drawable/textboxs"
+                android:hint="@string/register2_et_correo_electronico"
+                android:inputType="textEmailAddress"
+                android:padding="8dp" />
+
+            <!-- Número de teléfono -->
+            <TextView
+                android:id="@+id/phone_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_phone_number"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <EditText
+                android:padding="8dp"
+                android:id="@+id/et_numero_telefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register2_et_numero_telefono"
+                android:inputType="phone"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/textboxs" />
+
+            <!-- País -->
+            <TextView
+                android:id="@+id/residence_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_residence_country"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+
+            <AutoCompleteTextView
+                android:id="@+id/autocomplete_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Escribe tu pais"
+                android:completionThreshold="1"
+                android:layout_marginBottom="16dp"
+                android:padding="8dp"
+                android:background="@drawable/textboxs"
+                android:inputType="text" />
+
+
+
+
+            <!-- Dirección de residencia -->
+            <TextView
+                android:id="@+id/residence_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register2_t_residence_address"
+                android:textSize="16sp"
+                android:textColor="@color/verde_cesped"
+                android:background="@drawable/textviews"
+                android:padding="8dp" />
+
+            <EditText
+                android:padding="8dp"
+                android:id="@+id/et_direccion_residencia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/register2_et_direccion_residencia"
+                android:inputType="textPostalAddress"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/textboxs" />
+
+            <Button
+                android:id="@+id/btn_siguiente2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register1_nextbutton"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center" />
+
+
+
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="53dp"
+                android:text="@string/register_backbutton" />
+
+
+
+            <!-- Barra de progreso alineada a la derecha -->
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_gravity="end"
+                android:progress="66"
+                android:max="100"
+                android:progressDrawable="@drawable/progress_drawable" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

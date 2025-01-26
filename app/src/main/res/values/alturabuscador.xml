@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- defino solo la altura del buscador y de la lupita -->
+    <dimen name="common_filters_height">45dp</dimen>
+    <dimen name="margintop_buscador_filtro">2dp</dimen>
+
+</resources>

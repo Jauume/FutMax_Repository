@@ -1,0 +1,202 @@
+from flask import Flask, jsonify, request
+import psycopg2
+from psycopg2.extras import RealDictCursor
+from datetime import datetime
+from pytz import timezone
+
+
+
+app = Flask(__name__)
+
+# Configuración de la conexión a la base de datos PostgreSQL
+DB_CONFIG = {
+    'dbname': 'database1',
+    'user': 'xomicoman',
+    'password': '2002',
+    'host': '34.175.246.161', 
+    'port': 5432
+}
+
+
+@app.route('/')
+def home():
+    return "esta es mi página web de momento, con flask y ejecutada con app engine :))"
+
+
+#devuelve todos los usuarios
+@app.route('/get_users', methods=['GET'])
+def get_users():
+    print("AAA")
+    try:
+        # Conexión a la base de datos
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+        # Ejecutar la consulta para obtener todos los usuarios
+        cursor.execute("SELECT * FROM usuaris;")
+        rows = cursor.fetchall()
+        print(rows)
+        # Cerrar el cursor y la conexión
+        cursor.close()
+        conn.close()
+
+        # Retornar los datos como JSON
+        return jsonify({'success': True, 'data': rows}), 200
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+
+@app.route('/validate_user', methods=['POST'])
+def validate_user():
+    print("Validate user ejecutado")
+    try:
+        # Obtener los datos enviados en la solicitud
+        data = request.json
+        print(f"Datos recibidos: {data}")  # Añadido para depuración
+        username = data.get('nom')
+        password = data.get('contra')
+
+        if not username or not password:
+            return jsonify({'success': False, 'error': 'Username and password are required'}), 400
+
+        # Conexión a la base de datos
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+
+        # Consulta para verificar si el usuario y la contraseña coinciden
+        query = """
+            SELECT EXISTS(
+                SELECT 1 FROM usuaris
+                WHERE nom = %s AND contra = %s
+            );
+        """
+        cursor.execute(query, (username, password))
+        result = cursor.fetchone()
+
+        # Cerrar el cursor y la conexión
+        cursor.close()
+        conn.close()
+
+        # Devolver el resultado
+        exists = result[0] if result else False
+        return jsonify({'success': True, 'exists': exists}), 200
+
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+
+
+#esto sirve para actualizar la ultima conexion de un usuario
+@app.route('/update_login_time', methods=['POST'])
+def update_login_time():
+    data = request.get_json()
+    nom = data.get('nom')
+
+    if not nom:
+        return jsonify({"success": False, "message": "El nombre de usuario es requerido"}), 400
+
+    madrid_tz = timezone('Europe/Madrid')
+    data_login = datetime.now(madrid_tz).strftime("%Y-%m-%d %H:%M:%S")
+
+    try:
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+
+        # Actualizar la última conexión
+        cursor.execute("UPDATE usuaris SET ultim_inici_sesio = %s WHERE nom = %s", (data_login, nom))
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({"success": True, "message": "Última sesió actualitzada", "data_login": data_login}), 200
+
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
+
+
+
+
+# actualizar la última conexión (abrir la app con sesión iniciada)
+@app.route('/update_last_connection', methods=['POST'])
+def update_last_connection():
+    data = request.get_json()
+    nom = data.get('nom')
+
+    if not nom:
+        return jsonify({"success": False, "message": "El nombre de usuario es requerido"}), 400
+
+    madrid_tz = timezone('Europe/Madrid')
+    data_conexio = datetime.now(madrid_tz).strftime("%Y-%m-%d %H:%M:%S")
+
+    try:
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor()
+
+        cursor.execute("UPDATE usuaris SET ultima_conexio = %s WHERE nom = %s", (data_conexio, nom))
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({"success": True, "message": "Ultima conexió actualitzada", "data_conexio": data_conexio}), 200
+
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
+
+
+
+
+
+# obtener la URL de la imagen de perfil de un usuario
+@app.route('/get_userprofile_image', methods=['POST'])
+def get_userprofile_image():
+    try:
+        # bbtener el nombre del usuario
+        data = request.get_json()
+        nom = data.get('nom')
+
+        if not nom:
+            return jsonify({"success": False, "message": "Metodo get_userprofile_image, no hay nombre de usuario"}), 400
+
+        conn = psycopg2.connect(**DB_CONFIG)
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+
+        query = """
+            SELECT url_imatge_perfil 
+            FROM usuaris 
+            WHERE nom = %s;
+        """
+        cursor.execute(query, (nom,))
+        result = cursor.fetchone()
+
+        # Cerrar la conexión
+        cursor.close()
+        conn.close()
+
+        # Verificar si se encontró el usuario
+        if result and result['url_imatge_perfil']:
+            return jsonify({
+                "success": True,
+                "url_imatge_perfil": result['url_imatge_perfil']
+            }), 200
+        else:
+            return jsonify({"success": False, "message": "Usuario no encontrado o sin imagen de perfil"}), 404
+
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
