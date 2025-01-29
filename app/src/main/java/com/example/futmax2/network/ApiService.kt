@@ -1,9 +1,17 @@
 package com.example.futmax2.network
 
+import android.media.Image
+import android.widget.ImageView
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.http.Multipart
+import retrofit2.http.Part
+
+
 
 // Interfaz para definir los endpoints de la API
 interface ApiService {
@@ -34,6 +42,18 @@ interface ApiService {
     @POST("/seguidors/stats")
     fun getFollowStats(@Body request: FollowStatsRequest): Call<FollowStatsResponse>
 
+
+    @Multipart
+    @POST("usuaris/register_user")
+    fun registerUser(
+        @Part("nickname") nickname: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("contra") contra: RequestBody,
+        @Part("rol_selected") rolSelected: RequestBody,
+        @Part foto_perfil: MultipartBody.Part? ,
+        @Part("latitud") latitud: RequestBody,
+        @Part("longitud") longitud: RequestBody
+    ): Call<RegisterUserResponse>
 
 }
 
@@ -84,3 +104,18 @@ data class FollowStatsResponse(
     val message: String? = null
 )
 
+
+data class RegisterUserRequest(
+    val nickname: String,
+    val name: String,
+    val contra: String,
+    val foto_perfil: Image,
+    val rol_selected: Int
+)
+
+data class RegisterUserResponse(
+    val message: String,
+    val success: Boolean,
+    val url_imagen: String,
+    val user_id: Int
+)

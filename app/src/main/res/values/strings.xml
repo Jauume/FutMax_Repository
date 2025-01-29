@@ -1,5 +1,5 @@
 <resources>
-    <string name="tv_selected_role">Welcome. We are thrilled to have a new %1$s in our application. To complete the registration, we will ask you to add some additional information.</string>
+    <string name="register2_conversation1">Welcome to the app that connects football with the world!</string>
     <string name="default_role_text">Select your role</string>
     <string name="app_name" translatable="false">FutMax</string>
     <string name="title_home">Home</string>
@@ -39,11 +39,16 @@
     <string name="register2_et_correo_electronico">Enter your email</string>
     <string name="register2_t_phone_number">Phone Number</string>
     <string name="register2_et_numero_telefono">Enter your phone number</string>
-    <string name="register2_t_residence_country">Country of Residence</string>
-    <string name="register2_t_residence_state">State/Region</string>
     <string name="register2_t_residence_city">City</string>
-    <string name="register2_t_residence_address">Residential Address</string>
-    <string name="register2_et_direccion_residencia">Enter your addres</string>
     <string name="register_backbutton">Back</string>
+    <string name="register2_conversation2">We are very excited to have you here. To finish getting you ready for the match, we just need you to fill in some details. We are thrilled that you are part of this amazing football community!</string>
+    <string name="register2_et_city">Enter your city/town</string>
+    <string name="register3_t_nickname">Nickname</string>
+    <string name="register3_et_nickname">Write your nickname</string>
+    <string name="register3_t_password">Password</string>
+    <string name="register3_et_password1">Write your password</string>
+    <string name="register3_et_password2">Rewrite your password</string>
+    <string name="register3_btn_selectphoto">Select your profile photo</string>
+    <string name="register3_btn_register">Register</string>
 
 </resources>

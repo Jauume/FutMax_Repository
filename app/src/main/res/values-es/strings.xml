@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tv_selected_role">Bienvenido. Estamos encantados de tener a un nuevo %1$s en nuestra aplicación. Para completar el registro, te pediremos que añadas algunos datos más.</string>
+    <string name="register2_conversation1">Bienvenido/a a la app que conecta el fútbol con el mundo!</string>
     <string name="default_role_text">Selecciona tu rol</string>
     <string name="title_home">Casa</string>
     <string name="title_dashboard">Buscar</string>
@@ -39,10 +39,15 @@
     <string name="register2_et_correo_electronico">Ingresa tu correo electrónico</string>
     <string name="register2_t_phone_number">Número de teléfono</string>
     <string name="register2_et_numero_telefono">Ingresa tu número de teléfono</string>
-    <string name="register2_t_residence_country">País de residencia</string>
-    <string name="register2_t_residence_state">Comunidad Autónoma/Estado</string>
     <string name="register2_t_residence_city">Ciudad</string>
-    <string name="register2_t_residence_address">Dirección de residencia</string>
-    <string name="register2_et_direccion_residencia">Ingresa tu dirección de residencia</string>
     <string name="register_backbutton">Atrás</string>
+    <string name="register2_conversation2">Nos hace mucha ilusión tenerte aquí. Para terminar de prepararte para el partido, solo necesitamos que rellenes algunos datos. ¡Estamos encantados de que formes parte de esta gran comunidad futbolera!</string>
+    <string name="register2_et_city">Escribe tu cuidad/pueblo</string>
+    <string name="register3_t_nickname">Nombre de usuario</string>
+    <string name="register3_et_nickname">Escribe tu nombre de usuario</string>
+    <string name="register3_t_password">Contraseña</string>
+    <string name="register3_et_password1">Escribe tu contraseña</string>
+    <string name="register3_et_password2">Reescribe tu contraseña</string>
+    <string name="register3_btn_selectphoto">Seleccionar foto</string>
+    <string name="register3_btn_register">Registrarse</string>
 </resources>

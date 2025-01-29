@@ -10,7 +10,6 @@ import com.example.futmax2.BuildConfig
 import com.example.futmax2.R
 import com.example.futmax2.databinding.ActivityRegister2Binding
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 
@@ -73,43 +72,22 @@ class RegisterActivity2 : AppCompatActivity() {
             }
         })
 
-        // Cuando el usuario selecciona una sugerencia
+        /*
         binding.autocompleteCity.setOnItemClickListener { parent, view, position, id ->
             val selectedText = autoCompleteAdapter.getItem(position)
-            // Aquí podrías hacer fetchPlace() con el placeId si lo necesitas.
-            // Nota: 'FindAutocompletePredictionsRequest' te da un 'autocompletePredictions' con placeId
-            //       pero en este ejemplo simplificado estamos guardando solo .getFullText(null).
-            // Por ejemplo, si quisieras mapear: "Texto mostrable" -> placeId, necesitarías
-            // un custom adapter o guardar una lista paralela con placeIds.
 
             Toast.makeText(this@RegisterActivity2,
                 "Has seleccionado: $selectedText",
                 Toast.LENGTH_SHORT).show()
         }
+        */
 
 
-
-        // Mapa de roles con variaciones de género
-        val roleGenders = mapOf(
-            "Jugador" to "jugador o jugadora",
-            "Entrenador" to "entrenador o entrenadora",
-            "Preparador" to "preparador o preparadora",
-            "Agente" to "agente",
-            "Analista" to "analista",
-            "Aficionado" to "aficionado o aficionada",
-            "Club" to "club",
-            "Fisio" to "fisio",
-            "Psicólogo" to "psicólogo o psicóloga"
-        )
 
         // Obtener el rol seleccionado del Intent
         val selectedRole = intent.getStringExtra("SELECTED_ROLE") ?: "desconocido"
 
-        // Obtener la variación de género para el rol
-        val roleText = roleGenders[selectedRole] ?: selectedRole.lowercase()
 
-        // Actualizar el TextView con el mensaje personalizado
-        binding.tvSelectedRole.text = getString(R.string.tv_selected_role, roleText)
 
         // Botón siguiente
         binding.btnSiguiente2.setOnClickListener {
@@ -124,7 +102,13 @@ class RegisterActivity2 : AppCompatActivity() {
             }
         }
 
-        val register2_backbutton = findViewById<Button>(R.id.btn_back)
+        val backbutton = findViewById<Button>(R.id.btn_back2)
+
+        backbutton.setOnClickListener {
+            val intent = Intent(this, RegisterActivity1::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+        }
 
 
     }

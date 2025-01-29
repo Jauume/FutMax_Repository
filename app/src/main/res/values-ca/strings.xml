@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tv_selected_role">Benvingut. Estem encantats de tenir un nou %1$s a la nostra aplicació. Per completar el registre, et demanarem que afegeixis algunes dades més.</string>
+    <string name="register2_conversation1">Benvingut/da a l\'app que connecta el futbol amb el món!</string>
     <string name="default_role_text">Selecciona el teu rol</string>
     <string name="title_home">Casa</string>
     <string name="title_dashboard">Cercar</string>
@@ -39,10 +39,15 @@
     <string name="register2_et_correo_electronico">Introdueix el teu correu electrònic</string>
     <string name="register2_t_phone_number">Número de telèfon</string>
     <string name="register2_et_numero_telefono">Introdueix el teu número de telèfon</string>
-    <string name="register2_t_residence_country">País de residència</string>
-    <string name="register2_t_residence_state">Comunitat Autònoma/Estat</string>
     <string name="register2_t_residence_city">Ciutat</string>
-    <string name="register2_t_residence_address">Adreça de residència</string>
-    <string name="register2_et_direccion_residencia">Introdueix la teva adreça de residència</string>
     <string name="register_backbutton">Enrere</string>
+    <string name="register2_conversation2">Ens fa molta il·lusió tenir-te aquí. Per acabar de preparar-te per al partit, només necessitem que omplis algunes dades. Estem encantats que formis part d\'aquesta gran comunitat futbolera!</string>
+    <string name="register2_et_city">Escriu la teva ciutat/poble</string>
+    <string name="register3_t_nickname">Nom d\'usuari</string>
+    <string name="register3_et_nickname">Escriu el teu nom d\'usuari</string>
+    <string name="register3_t_password">Contrasenya</string>
+    <string name="register3_et_password1">Escriu la teva contrasenya</string>
+    <string name="register3_et_password2">Torna a escriure la contrasenya</string>
+    <string name="register3_btn_selectphoto">Seleccionar foto</string>
+    <string name="register3_btn_register">Registrar-se</string>
 </resources>

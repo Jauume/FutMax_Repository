@@ -33,21 +33,21 @@ class RegisterActivity1 : AppCompatActivity() {
         val nextButton = findViewById<Button>(R.id.btn_siguiente)
 
         // Configura el listener para cada LinearLayout
-        jugadorLayout.setOnClickListener { onItemSelected(jugadorLayout, "Jugador") }
-        entrenadorLayout.setOnClickListener { onItemSelected(entrenadorLayout, "Entrenador") }
-        preparadorLayout.setOnClickListener { onItemSelected(preparadorLayout, "Preparador") }
-        agenteLayout.setOnClickListener { onItemSelected(agenteLayout, "Agente") }
-        analistaLayout.setOnClickListener { onItemSelected(analistaLayout, "Analista") }
-        aficionadoLayout.setOnClickListener { onItemSelected(aficionadoLayout, "Aficionado") }
-        clubLayout.setOnClickListener { onItemSelected(clubLayout, "Club") }
-        fisioLayout.setOnClickListener { onItemSelected(fisioLayout, "Fisio") }
-        psicoLayout.setOnClickListener { onItemSelected(psicoLayout, "Psicólogo") }
+        jugadorLayout.setOnClickListener { onItemSelected(jugadorLayout, "1") }
+        entrenadorLayout.setOnClickListener { onItemSelected(entrenadorLayout, "2") }
+        preparadorLayout.setOnClickListener { onItemSelected(preparadorLayout, "3") }
+        agenteLayout.setOnClickListener { onItemSelected(agenteLayout, "4") }
+        analistaLayout.setOnClickListener { onItemSelected(analistaLayout, "5") }
+        aficionadoLayout.setOnClickListener { onItemSelected(aficionadoLayout, "6") }
+        clubLayout.setOnClickListener { onItemSelected(clubLayout, "7") }
+        fisioLayout.setOnClickListener { onItemSelected(fisioLayout, "8") }
+        psicoLayout.setOnClickListener { onItemSelected(psicoLayout, "9") }
 
         // Listener para el botón "Siguiente"
         nextButton.setOnClickListener {
             if (selectedRole != null) {
                 // Navegar a la siguiente actividad y pasar el rol seleccionado
-                Toast.makeText(this, "Has seleccionado $selectedRole.", Toast.LENGTH_SHORT).show()
+                // Toast.makeText(this, "Has seleccionado $selectedRole.", Toast.LENGTH_SHORT).show()
                 navigateToRegisterActivity2(selectedRole!!)
             } else {
                 Toast.makeText(this, "Por favor, selecciona un rol para continuar.", Toast.LENGTH_SHORT).show()
@@ -55,10 +55,9 @@ class RegisterActivity1 : AppCompatActivity() {
         }
 
         // Botón atras
+        val backbutton = findViewById<Button>(R.id.btn_back1)
 
-        val register2_backbutton = findViewById<Button>(R.id.btn_back1)
-
-        register2_backbutton.setOnClickListener {
+        backbutton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)

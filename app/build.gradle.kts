@@ -114,5 +114,7 @@ dependencies {
     // Google Places API
     implementation("com.google.android.libraries.places:places:3.2.0")
 
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
 }

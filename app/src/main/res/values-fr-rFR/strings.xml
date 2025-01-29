@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tv_selected_role">Bienvenue. Nous sommes ravis d\'accueillir un nouveau %1$s dans notre application. Pour compléter l\'inscription, nous vous demanderons d\'ajouter quelques informations supplémentaires.</string>
+    <string name="register2_conversation1">Bienvenue dans l\'application qui connecte le football au monde !</string>
     <string name="default_role_text">Sélectionnez votre rôle</string>
     <string name="title_home">Accueil</string>
     <string name="button_text">Fraçais</string>
@@ -39,10 +39,15 @@
     <string name="register2_et_correo_electronico">Entrez votre adresse email</string>
     <string name="register2_t_phone_number">Numéro de téléphone</string>
     <string name="register2_et_numero_telefono">Entrez votre numéro de téléphone</string>
-    <string name="register2_t_residence_country">Pays de résidence</string>
-    <string name="register2_t_residence_state">État/Région</string>
     <string name="register2_t_residence_city">Ville</string>
-    <string name="register2_t_residence_address">Adresse de résidence</string>
-    <string name="register2_et_direccion_residencia">Entrez votre adresse de résidence</string>
-    <string name="register_backbutton">Atras en farnces</string>
+    <string name="register_backbutton">Dos</string>
+    <string name="register2_conversation2">Nous sommes ravis de t\'avoir ici. Pour te préparer au mieux pour le match, nous avons simplement besoin que tu remplisses quelques informations. Nous sommes enchantés que tu fasses partie de cette grande communauté de football !</string>
+    <string name="register2_et_city">Indique ta ville/village</string>
+    <string name="register3_t_nickname">Nom d\'utilisateur</string>
+    <string name="register3_et_nickname">Entrez votre nom d\'utilisateur</string>
+    <string name="register3_t_password">Mot de passe</string>
+    <string name="register3_et_password1">Entrez votre mot de passe</string>
+    <string name="register3_et_password2">Réécrivez votre mot de passe</string>
+    <string name="register3_btn_selectphoto">Sélectionnez une photo</string>
+    <string name="register3_btn_register">Registre</string>
 </resources>
