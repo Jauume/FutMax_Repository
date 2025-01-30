@@ -152,7 +152,7 @@ class RegisterActivity3 : AppCompatActivity() {
                     Toast.makeText(this@RegisterActivity3, "Usuario registrado con éxito", Toast.LENGTH_SHORT).show()
                     navigateToMainActivity(nickname)
                 } else {
-                    Toast.makeText(this@RegisterActivity3, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@RegisterActivity3, "Error: ${response}", Toast.LENGTH_SHORT).show()
                 }
             }
 
