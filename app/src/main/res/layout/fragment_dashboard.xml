@@ -1,62 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_dashboard_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    android:layout_height="match_parent">
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/common_filters_height"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="@dimen/margintop_buscador_filtro"
-        android:layout_marginEnd="80dp"
-        android:background="@drawable/textboxs"
-        android:hint="Busca l'usuari"
-        android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- RecyclerView para mostrar las sugerencias debajo del campo de texto -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewSuggestions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/autoCompleteTextView"
-        tools:listitem="@layout/item_suggestion" />
-
-    <ImageButton
-        android:id="@+id/buttonLupa"
-        android:layout_width="@dimen/common_filters_height"
-        android:layout_height="@dimen/common_filters_height"
-        android:layout_marginTop="@dimen/margintop_buscador_filtro"
-        android:layout_marginEnd="10dp"
-        android:adjustViewBounds="true"
-        android:background="@drawable/filtrolupita"
-        android:clickable="true"
-        android:clipToOutline="true"
-        android:contentDescription="Descripcion boton lupa"
-        android:focusable="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/lupita"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <!-- Fragment para el mapa de Google en la mitad inferior -->
+    <!-- Mapa ocupando todo el espacio -->
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/buttonLupa"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Botón Lupa flotante en la esquina superior derecha -->
+    <ImageButton
+        android:id="@+id/buttonLupa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="top|end"
+        android:src="@drawable/filtrolupita"
+        android:contentDescription="Filtroooo"
+        android:elevation="8dp"/>
+</FrameLayout>

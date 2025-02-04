@@ -1,7 +1,6 @@
 package com.example.futmax2.network
 
 import android.media.Image
-import android.widget.ImageView
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -15,8 +14,13 @@ import retrofit2.http.Part
 
 // Interfaz para definir los endpoints de la API
 interface ApiService {
+
     @GET("usuaris/get_users") // Endpoint para obtener todos los usuarios
     fun getUsers(): Call<ApiResponse>
+
+    @GET("usuaris/get_users_map_info") //para el mapa
+    fun getUsersMapInfo(): Call<GetUsersMapInfoResponse>
+
 
     @POST("usuaris/validate_user")
     fun validateUser(@Body request: ValidateUserRequest): Call<ValidateUserResponse>
@@ -77,6 +81,26 @@ data class UpdateLastLoginRequest(
 data class UpdateLastConnectionRequest(
     val nickname: String,
 )
+
+
+
+//pal mapa
+data class GetUsersMapInfoResponse(
+    val success: Boolean,
+    val data: List<UserMapInfo>
+)
+//pal mapa
+data class UserMapInfo(
+    val nickname: String,
+    val rol: String,
+    val latitud: Double?,
+    val longitud: Double?,
+    val url_imatge_perfil: String
+)
+
+
+
+
 
 
 // representar la solicitud de imagen de perfil

@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "https://futmax-446811.lm.r.appspot.com/" // URL base de tu API
+    private const val BASE_URL = "https://futmax-446811.lm.r.appspot.com/" // URL base de la API
 
     private var retrofit: Retrofit? = null
 

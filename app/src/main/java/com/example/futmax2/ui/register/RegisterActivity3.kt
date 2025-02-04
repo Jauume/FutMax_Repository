@@ -130,8 +130,10 @@ class RegisterActivity3 : AppCompatActivity() {
         } else null
 
 
-        val latitud = 41.2778
-        val longitud = 1.9800
+
+        val latitud = intent.getDoubleExtra("LATITUDE", 0.0)
+        val longitud = intent.getDoubleExtra("LONGITUDE", 0.0)
+
 
         val latitudPart = RequestBody.create("text/plain".toMediaTypeOrNull(), latitud.toString())
         val longitudPart = RequestBody.create("text/plain".toMediaTypeOrNull(), longitud.toString())
