@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         // Configuración del BottomNavigationView
         val navView: BottomNavigationView = binding.navView
+
+
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -53,6 +55,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
 
         // Llamar a la API al iniciar
         fetchUsersFromApi()

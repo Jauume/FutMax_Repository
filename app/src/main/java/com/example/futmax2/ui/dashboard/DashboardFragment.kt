@@ -46,6 +46,17 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
         mapFragment?.getMapAsync(this)
             ?: Log.e("DashboardFragment", "No se encontró el SupportMapFragment")
 
+
+        val buttonInfo = binding.buttonInfo
+        val cardLegend = binding.cardLegend
+        buttonInfo.setOnClickListener {
+            cardLegend.visibility = if (cardLegend.visibility == View.VISIBLE)
+                View.GONE
+            else
+                View.VISIBLE
+        }
+
+
         return root
     }
 
@@ -65,7 +76,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
 
         // Centra en Barcelona
         val initialLocation = LatLng(41.38879, 2.15899)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 20f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 10f))
 
         // Llamada a API
         val service = ApiClient.getClient().create(ApiService::class.java)
