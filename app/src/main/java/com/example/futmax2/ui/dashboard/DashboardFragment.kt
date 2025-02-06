@@ -1,6 +1,7 @@
 package com.example.futmax2.ui.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,14 +38,13 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val buttonLupa: ImageButton = binding.buttonLupa
-        buttonLupa.setOnClickListener {
-            Toast.makeText(requireContext(), "Lupa clicada", Toast.LENGTH_SHORT).show()
-        }
 
-        // Mapa
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        val mapFragment = childFragmentManager.findFragmentById(
+            R.id.mapFragmentContainer
+        ) as? SupportMapFragment
+
+        mapFragment?.getMapAsync(this)
+            ?: Log.e("DashboardFragment", "No se encontró el SupportMapFragment")
 
         return root
     }
@@ -65,7 +65,7 @@ class DashboardFragment : Fragment(), OnMapReadyCallback {
 
         // Centra en Barcelona
         val initialLocation = LatLng(41.38879, 2.15899)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 10f))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, 20f))
 
         // Llamada a API
         val service = ApiClient.getClient().create(ApiService::class.java)

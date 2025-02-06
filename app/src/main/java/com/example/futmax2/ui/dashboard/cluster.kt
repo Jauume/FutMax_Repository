@@ -38,80 +38,107 @@ class MyClusterRenderer(
     clusterManager: ClusterManager<MyItem>
 ) : DefaultClusterRenderer<MyItem>(context, map, clusterManager) {
 
+    /**
+     * Decide si se hace cluster o no. Aquí decimos que solo se agrupe
+     * si hay 2 o más usuarios juntos.
+     */
     override fun shouldRenderAsCluster(cluster: Cluster<MyItem>): Boolean {
-        // Solo agrupa si hay 2 o más items
         return cluster.size > 1
     }
 
-    // Para items sueltos
+    /**
+     * Se llama antes de “construir” el marcador de un ítem individual.
+     * Aquí podemos poner un ícono base (sin foto) para no mostrar el
+     * ícono por defecto de Google.
+     */
     override fun onBeforeClusterItemRendered(item: MyItem, markerOptions: MarkerOptions) {
-        // No llamamos a super para evitar el icono por defecto
-        //super.onBeforeClusterItemRendered(item, markerOptions)
+        // Icono de “placeholder” solo con el color según rol.
+        val colorPin = when (item.rol) {
+            "1" -> Color.BLUE     // Jugador
+            "2" -> Color.RED      // Entrenador
+            else -> Color.GRAY
+        }
 
-        // Descargamos la foto
+        val pinDrawable = ContextCompat.getDrawable(context, R.drawable.ic_pin_base)!!.mutate()
+        pinDrawable.setTint(colorPin)
+
+        val width = pinDrawable.intrinsicWidth
+        val height = pinDrawable.intrinsicHeight
+        pinDrawable.setBounds(0, 0, width, height)
+
+        val pinBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(pinBitmap)
+        pinDrawable.draw(canvas)
+
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(pinBitmap))
+        markerOptions.title(item.nickname)
+        markerOptions.snippet(item.rol)
+    }
+
+    /**
+     * Se llama cuando el ítem individual ya está renderizado.
+     * Aquí es donde hacemos la carga asíncrona con Glide y,
+     * una vez descargada la foto, actualizamos el icono.
+     */
+    override fun onClusterItemRendered(clusterItem: MyItem, marker: Marker) {
+        super.onClusterItemRendered(clusterItem, marker)
+
+        // Cargar la foto con Glide (asíncrono)
         Glide.with(context)
             .asBitmap()
-            .load(item.imageUrl)
-            .circleCrop() // la recortamos circular
+            .load(clusterItem.imageUrl)
+            .circleCrop()
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    // Generamos la "chincheta" con color según rol + la foto centrada
-                    val finalIcon = createPinWithPhoto(resource, item.rol)
-
-                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(finalIcon))
-                    markerOptions.title(item.nickname)
-                    markerOptions.snippet(item.rol)
+                    val finalIcon = createPinWithPhoto(resource, clusterItem.rol)
+                    marker.setIcon(BitmapDescriptorFactory.fromBitmap(finalIcon))
                 }
                 override fun onLoadCleared(placeholder: Drawable?) {}
             })
     }
 
-    // Para clusters de varios items
+    /**
+     * Se llama antes de “construir” el marcador de un cluster (2+ ítems).
+     * Aquí puedes dibujar un ícono que muestre el número de usuarios.
+     */
     override fun onBeforeClusterRendered(cluster: Cluster<MyItem>, markerOptions: MarkerOptions) {
-        // Podrías usar un círculo con el número, etc.
         val descriptor = makeClusterIcon(cluster.size)
         markerOptions.icon(descriptor)
     }
 
     /**
-     * Crea un pin en color 'rolColor' con la foto circular en el centro
+     * Dibuja un pin en color `rolColor` con la foto circular sobre el “cabezal”.
      */
     private fun createPinWithPhoto(photo: Bitmap, rol: String): Bitmap {
-        // 1) Determinamos color según el rol
         val rolColor = when (rol) {
-            "1" -> Color.BLUE
-            "2" -> Color.RED
+            "1" -> Color.BLUE //jugador
+            "2" -> Color.RED //
+
             else -> Color.GRAY
         }
 
-        // 2) Tomamos una base (drawable) de una chincheta (ic_pin_base.png).
-        //    Debe estar en res/drawable. Ajusta el nombre como quieras.
+        // 1) Pin base
         val pinDrawable = ContextCompat.getDrawable(context, R.drawable.ic_pin_base)!!.mutate()
-
-        // 3) Teñimos la chincheta con el color según rol
         pinDrawable.setTint(rolColor)
 
         val width = pinDrawable.intrinsicWidth
         val height = pinDrawable.intrinsicHeight
         pinDrawable.setBounds(0, 0, width, height)
 
-        // 4) Creamos un bitmap + canvas para dibujar
         val pinBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(pinBitmap)
         pinDrawable.draw(canvas)
 
-        // 5) Colocamos la foto circular en la "cabeza" del pin
-        //    Ajusta 'centerX' y 'centerY' para que se vea bien
+        // 2) Superponer la foto circular en el centro del “cabezal”
         val centerX = width / 2
-        val centerY = height / 4  // un cuarto de la altura, por ejemplo
-
-        val photoSize = 80  // px
+        val centerY = height / 4  // Ajusta según tu pin
+        val photoSize = 80 // px
         val scaledPhoto = Bitmap.createScaledBitmap(photo, photoSize, photoSize, true)
 
         canvas.drawBitmap(
             scaledPhoto,
-            (centerX - scaledPhoto.width/2).toFloat(),
-            (centerY - scaledPhoto.height/2).toFloat(),
+            (centerX - scaledPhoto.width / 2).toFloat(),
+            (centerY - scaledPhoto.height / 2).toFloat(),
             null
         )
 
@@ -119,7 +146,7 @@ class MyClusterRenderer(
     }
 
     /**
-     * Crea un ícono para el cluster (cuando hay 2+ items)
+     * Dibuja el ícono de cluster (un círculo verde con el número de ítems).
      */
     private fun makeClusterIcon(clusterSize: Int): BitmapDescriptor {
         val sizePx = 80
@@ -133,7 +160,7 @@ class MyClusterRenderer(
         }
         canvas.drawCircle(sizePx / 2f, sizePx / 2f, sizePx / 2f, paintCircle)
 
-        // Texto con el número
+        // Texto
         val paintText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = Color.WHITE
             textSize = 32f
