@@ -36,6 +36,8 @@ import java.io.FileOutputStream
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import android.os.Build
+
 
 
 
@@ -185,32 +187,50 @@ class RegisterActivity3 : AppCompatActivity() {
             }
             .show()
     }
+    private val galleryPermission: String
+        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
 
     // Verificar y solicitar permisos para la galería
+
     private fun checkAndRequestGalleryPermission() {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        Log.d("PERMISOS", "Verificando permiso: $galleryPermission")
+
+        if (ContextCompat.checkSelfPermission(this, galleryPermission) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("PERMISOS", "Permiso ya concedido, abriendo galería.")
+            openGallery()
+        } else {
+            Log.d("PERMISOS", "Permiso NO concedido, solicitando...")
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, galleryPermission)) {
+                Log.d("PERMISOS", "Mostrando diálogo de explicación del permiso.")
                 showPermissionExplanationDialog(
                     "Permiso necesario",
                     "Esta aplicación necesita acceso a la galería para seleccionar una foto de perfil.",
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    galleryPermission,
                     PERMISSION_REQUEST_CODE_GALLERY
                 )
             } else {
+                Log.d("PERMISOS", "Solicitando permiso de galería...")
                 ActivityCompat.requestPermissions(
                     this,
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                    arrayOf(galleryPermission),
                     PERMISSION_REQUEST_CODE_GALLERY
                 )
             }
-        } else {
-            openGallery()
         }
     }
+
+
+
+
+
+
+
 
     // Verificar y solicitar permisos para la cámara
     private fun checkAndRequestCameraPermission() {
@@ -262,32 +282,41 @@ class RegisterActivity3 : AppCompatActivity() {
     }
 
     // Mostrar un diálogo para redirigir al usuario a la configuración
+
     private fun showSettingsDialog() {
         AlertDialog.Builder(this)
             .setTitle("Permiso necesario")
-            .setMessage("Los permisos son necesarios para usar esta funcionalidad. Por favor, actívelos en la configuración de la aplicación.")
-            .setPositiveButton("Configuración") { _, _ ->
+            .setMessage("Debes habilitar el permiso de la galería en la configuración de la aplicación.")
+            .setPositiveButton("Abrir configuración") { _, _ ->
                 val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                 val uri = Uri.fromParts("package", packageName, null)
                 intent.data = uri
                 startActivity(intent)
             }
-            .setNegativeButton("Cancelar") { dialog, _ ->
-                dialog.dismiss()
-            }
+            .setNegativeButton("Cancelar") { dialog, _ -> dialog.dismiss() }
             .show()
     }
 
+
+
+
+
+
     // Abrir la galería
+
     private fun openGallery() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, galleryPermission) == PackageManager.PERMISSION_GRANTED) {
+            Log.d("PERMISOS", "📂 Abriendo galería...")
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, PICK_IMAGE_REQUEST)
         } else {
+            Log.d("PERMISOS", "🚫 Permiso para galería no concedido.")
             Toast.makeText(this, "Permiso para galería no concedido", Toast.LENGTH_SHORT).show()
         }
     }
+
+
 
     // Abrir la cámara
     private fun openCamera() {
@@ -300,26 +329,35 @@ class RegisterActivity3 : AppCompatActivity() {
     }
 
     // Manejar la respuesta de permisos
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            when (requestCode) {
-                PERMISSION_REQUEST_CODE_GALLERY -> openGallery()
-                PERMISSION_REQUEST_CODE_CAMERA -> openCamera()
-            }
-        } else {
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
-                // El permiso fue denegado con "No volver a preguntar"
-                showSettingsDialog()
+
+        if (requestCode == PERMISSION_REQUEST_CODE_GALLERY) {
+            Log.d("PERMISOS", "onRequestPermissionsResult llamado.")
+
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("PERMISOS", "Permiso concedido, abriendo galería.")
+                openGallery()
             } else {
-                Toast.makeText(this, "Permiso denegado.", Toast.LENGTH_SHORT).show()
+                Log.d("PERMISOS", "Permiso denegado.")
+
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
+                    Log.d("PERMISOS", "Permiso denegado permanentemente, mostrando diálogo de configuración.")
+                    showSettingsDialog()
+                } else {
+                    Toast.makeText(this, "Permiso denegado.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
+
+
+
+
+
+
 
     // Manejar el resultado de la selección de imagen o la captura de foto
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
