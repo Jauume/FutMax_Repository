@@ -118,6 +118,12 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
 
+
+    //Para la ubicacion
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+
+
     //para el clustering
     implementation("com.google.android.gms:play-services-maps:latest-version")
     implementation("com.google.maps.android:android-maps-utils:3.4.0")

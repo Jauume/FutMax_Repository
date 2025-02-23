@@ -1,33 +1,49 @@
 package com.example.futmax2.ui.register
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.futmax2.BuildConfig
 import com.example.futmax2.R
 import com.example.futmax2.databinding.ActivityRegister2Binding
+
+// Google Places
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 
+// Fused Location
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+
+
+
 class RegisterActivity2 : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegister2Binding
     private lateinit var placesClient: PlacesClient
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1001
 
     // Adapter para mostrar las sugerencias de ciudades (texto completo)
     private lateinit var autoCompleteAdapter: ArrayAdapter<String>
 
-    // Listas para almacenar la ciudad (texto) y su placeId en paralelo
+    // Listas para almacenar el nombre completo de la ciudad y su placeId en paralelo
     private val cityNamesList = mutableListOf<String>()
     private val placeIdList = mutableListOf<String>()
 
-    // Variables para guardar las coordenadas de la ciudad seleccionada
+    // Variables para guardar las coordenadas de la ciudad seleccionada o de la ubicación actual
     private var selectedLat: Double? = null
     private var selectedLng: Double? = null
 
@@ -36,42 +52,43 @@ class RegisterActivity2 : AppCompatActivity() {
         binding = ActivityRegister2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 1) Inicializar Places
+        // 1) Inicializar FusedLocationProviderClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // 2) Inicializar Places
         Places.initialize(applicationContext, BuildConfig.PLACES_API_KEY)
         placesClient = Places.createClient(this)
 
-        // 2) Inicializar el Adapter y asignarlo a nuestro AutoCompleteTextView
-        autoCompleteAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, cityNamesList)
+        // 3) Inicializar el Adapter y asignarlo a nuestro AutoCompleteTextView
+        autoCompleteAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_dropdown_item_1line,
+            cityNamesList
+        )
         binding.autocompleteCity.setAdapter(autoCompleteAdapter)
 
-        // 3) Cuando el usuario escribe, buscamos predicciones
+        // --- Escucha de cambios de texto para autocompletar ---
         binding.autocompleteCity.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) { /* No usado */ }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { /* No usado */ }
-
+            override fun afterTextChanged(s: Editable?) { /* No lo usamos */ }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { /* No lo usamos */ }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s?.toString() ?: ""
                 if (query.length >= 1) {
                     val request = FindAutocompletePredictionsRequest.builder()
-                        // Si quieres restringir a un país en concreto, descomenta:
-                        // .setCountries("ES")
+                        // .setCountries("ES") // Si quieres restringir a un país específico
                         .setQuery(query)
                         .build()
 
                     placesClient.findAutocompletePredictions(request)
                         .addOnSuccessListener { response ->
-                            // Vaciamos las listas para actualizar con nuevos resultados
                             cityNamesList.clear()
                             placeIdList.clear()
 
                             for (prediction in response.autocompletePredictions) {
-                                // Usamos el texto completo para mostrar en el dropdown
+                                // Agregamos el texto completo y el placeId
                                 cityNamesList.add(prediction.getFullText(null).toString())
-                                // Guardamos el placeId en la misma posición
                                 placeIdList.add(prediction.placeId)
                             }
-
-                            // Actualizamos el adaptador
                             autoCompleteAdapter.clear()
                             autoCompleteAdapter.addAll(cityNamesList)
                             autoCompleteAdapter.notifyDataSetChanged()
@@ -84,7 +101,7 @@ class RegisterActivity2 : AppCompatActivity() {
                             ).show()
                         }
                 } else {
-                    // Si el usuario borra todo, limpiamos
+                    // Si el usuario borra el texto, vaciamos
                     cityNamesList.clear()
                     placeIdList.clear()
                     autoCompleteAdapter.clear()
@@ -93,11 +110,9 @@ class RegisterActivity2 : AppCompatActivity() {
             }
         })
 
-        // 4) Cuando el usuario selecciona una de las sugerencias
-        binding.autocompleteCity.setOnItemClickListener { parent, view, position, id ->
-            val placeId = placeIdList[position]  // Obtenemos el placeId correspondiente
-
-            // Hacemos fetchPlace para obtener la lat/lng
+        // --- Manejo de selección de la lista autocompletada ---
+        binding.autocompleteCity.setOnItemClickListener { _, _, position, _ ->
+            val placeId = placeIdList[position]
             val placeFields = listOf(Place.Field.LAT_LNG)
             val fetchPlaceRequest = FetchPlaceRequest.builder(placeId, placeFields).build()
 
@@ -124,25 +139,23 @@ class RegisterActivity2 : AppCompatActivity() {
                 }
         }
 
-        // Obtener el rol seleccionado del Intent
+        // Obtener el rol seleccionado del Intent (por ejemplo, "Jugador", "Entrenador", etc.)
         val selectedRole = intent.getStringExtra("SELECTED_ROLE") ?: "desconocido"
 
-        // Botón siguiente
+        // --- Botón Siguiente ---
         binding.btnSiguiente2.setOnClickListener {
             val nom_complet = binding.etNombreCompleto.text.toString()
-            val data_naixement = "messi" // Simulación de la fecha
+            val data_naixement = "messi" // Simulación de fecha (solo para ejemplo)
 
-            // Validamos que el nombre esté lleno
             if (nom_complet.isNotEmpty()) {
-                // Validamos también que hayamos seleccionado una ciudad (lat/lng)
+                // Verifica que tengamos las coordenadas
                 if (selectedLat == null || selectedLng == null) {
                     Toast.makeText(
                         this,
-                        "Por favor, selecciona una ciudad válida para obtener coordenadas.",
+                        "Por favor, selecciona una ciudad válida o tu ubicación actual.",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    // Navegamos a la siguiente Activity
                     Toast.makeText(this, "Adelante a Registro3.", Toast.LENGTH_SHORT).show()
                     navigateToRegisterActivity3(selectedRole, nom_complet, data_naixement)
                 }
@@ -151,22 +164,109 @@ class RegisterActivity2 : AppCompatActivity() {
             }
         }
 
-        // Botón de volver atrás
-        val backbutton = findViewById<Button>(R.id.btn_back2)
-        backbutton.setOnClickListener {
+        // --- Botón Volver Atrás ---
+        binding.btnBack2.setOnClickListener {
             val intent = Intent(this, RegisterActivity1::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
         }
+
+        // --- Botón para usar ubicación actual ---
+        binding.btnCurrentLocation.setOnClickListener {
+            checkLocationPermission()
+        }
     }
 
-    // Pasa la info necesaria a la tercera pantalla del registro
+    /**
+     * Verifica si tenemos permiso de localización y, si es así, obtiene la ubicación;
+     * si no, solicita los permisos.
+     */
+    private fun checkLocationPermission() {
+        val permissionFine = Manifest.permission.ACCESS_FINE_LOCATION
+        val permissionCoarse = Manifest.permission.ACCESS_COARSE_LOCATION
+
+        if (ActivityCompat.checkSelfPermission(this, permissionFine) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, permissionCoarse) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Ya tenemos los permisos
+            getCurrentLocation()
+        } else {
+            // Pedir permisos
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(permissionFine, permissionCoarse),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+        }
+    }
+
+    /**
+     * Maneja la respuesta del usuario a la solicitud de permisos.
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getCurrentLocation()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Permiso denegado. No se puede obtener la ubicación.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    /**
+     * Obtiene la ubicación actual del dispositivo usando FusedLocationProviderClient.
+     */
+    private fun getCurrentLocation() {
+        try {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    if (location != null) {
+                        selectedLat = location.latitude
+                        selectedLng = location.longitude
+                        Toast.makeText(
+                            this,
+                            "Ubicación actual: $selectedLat, $selectedLng",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "No se pudo determinar la ubicación actual (nulo).",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(
+                        this,
+                        "Error al obtener ubicación: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        } catch (ex: SecurityException) {
+            // Este catch salta si no se tienen permisos en tiempo de ejecución
+            Toast.makeText(this, "Error de permisos: ${ex.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    /**
+     * Navega hacia la siguiente pantalla de registro (RegisterActivity3),
+     * pasando los datos necesarios (rol, nombre, fecha, lat, lng).
+     */
     private fun navigateToRegisterActivity3(role: String, name: String, date: String) {
         val intent = Intent(this, RegisterActivity3::class.java).apply {
             putExtra("SELECTED_ROLE", role)
             putExtra("NAME", name)
             putExtra("DATE", date)
-            // Añadimos lat y lng además del resto
             putExtra("LATITUDE", selectedLat)
             putExtra("LONGITUDE", selectedLng)
         }

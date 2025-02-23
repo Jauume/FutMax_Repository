@@ -414,8 +414,6 @@ class RegisterActivity3 : AppCompatActivity() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "Permisos habilitados", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Por favor, habilita los permisos para continuar", Toast.LENGTH_SHORT).show()
         }
     }
 

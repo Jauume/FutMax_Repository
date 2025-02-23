@@ -285,6 +285,16 @@
                 android:inputType="text" />
 
 
+            <Button
+                android:id="@+id/btn_current_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Usar mi ubicación actual"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="center"/>
+
+
+
 
 
             <Button
