@@ -4,10 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_dashboard_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <!-- Mapa ocupando todo el espacio -->
+    <!-- Contenedor del mapa -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mapFragmentContainer"
         android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -21,76 +20,75 @@
         android:layout_height="48dp"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="72dp"
         android:src="@drawable/dashboard_info"
-        android:contentDescription="Infooo"
+        android:contentDescription="Información"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
         android:padding="4dp"
         android:elevation="8dp" />
 
-    <!-- CardView de la leyenda, aparece ENCIMA del botón info -->
+    <!-- CardView de la leyenda, aparece encima del botón info -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardLegend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="136dp"
         android:visibility="gone"
         android:padding="12dp"
         android:elevation="4dp"
         android:background="@android:color/white"
-        android:clipToOutline="true"
         app:cardCornerRadius="8dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- Jugador -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
+            android:orientation="vertical">
 
-            <View
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:background="@android:color/holo_blue_dark" />
-
-            <TextView
+            <!-- Jugador -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Jugador"
-                android:textColor="@android:color/black" />
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
 
-        <!-- Entrenador -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@android:color/holo_blue_dark" />
 
-            <View
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:background="@android:color/holo_red_dark" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Jugador"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
 
-            <TextView
+            <!-- Entrenador -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Trainer"
-                android:textColor="@android:color/black" />
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@android:color/holo_red_dark" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Trainer"
+                    android:textColor="@android:color/black" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
     </FrameLayout>

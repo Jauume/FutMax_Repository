@@ -13,17 +13,19 @@ import com.example.futmax2.network.ApiService
 import com.example.futmax2.network.UserImageProfileRequest
 import com.example.futmax2.network.UserImageProfileResponse
 import com.example.futmax2.ui.loginactivity.LoginActivity
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import com.example.futmax2.R
 import com.example.futmax2.network.ApiClient
 import com.example.futmax2.network.FollowStatsRequest
 import com.example.futmax2.network.FollowStatsResponse
 
-
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
+    // Al usar ‘binding’ con get() = _binding!!,
+    // es fundamental asegurarse de que _binding no sea null al acceder.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -47,53 +49,52 @@ class ProfileFragment : Fragment() {
         return root
     }
 
-
-
     private fun fetchUserProfile() {
         val sharedPref = requireContext().getSharedPreferences("user_session", Context.MODE_PRIVATE)
         val nickname = sharedPref.getString("nickname_key", "") ?: ""
 
-        // En vez de crear un nuevo Retrofit, usamos el que ya definiste en ApiClient
+        // Usamos la instancia de Retrofit de ApiClient
         val apiService = ApiClient.getClient().create(ApiService::class.java)
         val request = UserImageProfileRequest(nickname = nickname)
 
-        // Llamar a la API
         apiService.getUserProfileImage(request).enqueue(object : Callback<UserImageProfileResponse> {
             override fun onResponse(
                 call: Call<UserImageProfileResponse>,
                 response: Response<UserImageProfileResponse>
             ) {
+                // Verificamos que el fragment siga “vivo” (no se haya destruido la vista)
+                if (!isAdded || _binding == null) return
+
                 if (response.isSuccessful) {
                     val userProfile = response.body()
                     if (userProfile?.success == true) {
-                        // Actualizar la foto de perfil
+                        // Actualizamos la foto de perfil con Glide
                         Glide.with(this@ProfileFragment)
                             .load(userProfile.url_imatge_perfil)
                             .placeholder(R.drawable.imatge_perfil)
                             .error(R.drawable.imatge_perfil)
                             .into(binding.profileImageView)
 
-                        // Actualizar el nickname de usuario
+                        // Actualizamos el nickname
                         binding.usernameTextView.text = nickname
                     } else {
                         binding.usernameTextView.text = "Usuario no encontrado"
                     }
+                } else {
+                    // Maneja el caso de respuesta no exitosa
+                    binding.usernameTextView.text = "Error en la respuesta"
                 }
             }
 
             override fun onFailure(call: Call<UserImageProfileResponse>, t: Throwable) {
+                // Verificamos que el fragment siga “vivo”
+                if (!isAdded || _binding == null) return
+
                 binding.usernameTextView.text = "Error de conexión"
                 t.printStackTrace()
             }
         })
     }
-
-
-
-
-
-
-
 
     private fun fetchFollowStats() {
         val sharedPref = requireContext().getSharedPreferences("user_session", Context.MODE_PRIVATE)
@@ -107,14 +108,16 @@ class ProfileFragment : Fragment() {
                 call: Call<FollowStatsResponse>,
                 response: Response<FollowStatsResponse>
             ) {
+                // De nuevo, comprobamos que el fragment siga existiendo
+                if (!isAdded || _binding == null) return
+
                 if (response.isSuccessful) {
                     val stats = response.body()
                     if (stats?.success == true) {
-                        // Actualizamos los TextViews
                         binding.textViewSeguidoresCount.text = stats.followers_count.toString()
                         binding.textViewSeguidosCount.text = stats.following_count.toString()
                     } else {
-                        // Manejar error, por ejemplo stats.message
+                        // Maneja el caso de error en la respuesta de la API
                         binding.textViewSeguidoresCount.text = "-1"
                         binding.textViewSeguidosCount.text = "-2"
                     }
@@ -125,20 +128,14 @@ class ProfileFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<FollowStatsResponse>, t: Throwable) {
+                if (!isAdded || _binding == null) return
+
                 t.printStackTrace()
                 binding.textViewSeguidoresCount.text = "-5"
                 binding.textViewSeguidosCount.text = "-6"
             }
         })
     }
-
-
-
-
-
-
-
-
 
     private fun logout() {
         // Eliminar la sesión guardada
@@ -151,13 +148,12 @@ class ProfileFragment : Fragment() {
         // Redirigir a LoginActivity
         val intent = Intent(requireContext(), LoginActivity::class.java)
         startActivity(intent)
-
-        // Cerrar la actividad actual
         requireActivity().finish()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        // Importante: liberamos la referencia al binding para evitar fugas de memoria
         _binding = null
     }
 }

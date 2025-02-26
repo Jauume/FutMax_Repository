@@ -30,37 +30,38 @@ class MainActivity : AppCompatActivity() {
 
         // Verificar si hay sesión iniciada
         if (!checkSession()) {
-            // Si no hay sesión, redirigir a LoginActivity
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
             return
         }
 
-        // Actualizar la última conexión al iniciar sesión
+        // Actualizar la última conexión
         updateLastConnection()
 
         // Configurar la vista principal
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Quitar esto, ya que no tienes ActionBar por tema:
+        //supportActionBar?.hide()
+
         // Configuración del BottomNavigationView
         val navView: BottomNavigationView = binding.navView
-
-
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_profile
-            )
+            setOf(R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_profile)
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        // COMENTAR O QUITAR, porque no tenemos una ActionBar real:
+        //setupActionBarWithNavController(navController, appBarConfiguration)
+
+        // El BottomNavigation sí puede seguir usando Navigation:
         navView.setupWithNavController(navController)
-
-
 
         // Llamar a la API al iniciar
         fetchUsersFromApi()
     }
+
 
     // Método para verificar la sesión
     private fun checkSession(): Boolean {
@@ -93,7 +94,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
 
     // Método para realizar la llamada a la API
     private fun fetchUsersFromApi() {

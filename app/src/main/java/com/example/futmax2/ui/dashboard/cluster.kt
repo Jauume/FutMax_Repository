@@ -38,6 +38,14 @@ class MyClusterRenderer(
     clusterManager: ClusterManager<MyItem>
 ) : DefaultClusterRenderer<MyItem>(context, map, clusterManager) {
 
+
+
+
+
+
+
+
+
     /**
      * Decide si se hace cluster o no. Aquí decimos que solo se agrupe
      * si hay 2 o más usuarios juntos.
