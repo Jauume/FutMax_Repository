@@ -22,4 +22,9 @@
         android:name="com.example.futmax2.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_messages"
+        android:name="com.example.futmax2.ui.messages.MessagesFragment"
+        android:label="Mensajes"
+        tools:layout="@layout/fragment_messages" />
 </navigation>

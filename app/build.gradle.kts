@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin) // Si usas este plugin
     id("org.jetbrains.kotlin.kapt") // Solo si usas kapt
+    id("com.google.gms.google-services")
+
 }
 
 
@@ -88,7 +90,8 @@ secrets {
 
 
 dependencies {
-
+    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation("com.google.firebase:firebase-analytics")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

@@ -1,4 +1,5 @@
-<resources>
+<resources><string name="title_messages">Mensajes</string>
+
     <string name="register2_conversation1">Welcome to the app that connects football with the world!</string>
     <string name="default_role_text">Select your role</string>
     <string name="app_name" translatable="false">FutMax</string>

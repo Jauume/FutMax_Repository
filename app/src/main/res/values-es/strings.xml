@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources><string name="title_messages">Mensajes</string>
+
     <string name="register2_conversation1">Bienvenido/a a la app que conecta el fútbol con el mundo!</string>
     <string name="default_role_text">Selecciona tu rol</string>
     <string name="title_home">Casa</string>
